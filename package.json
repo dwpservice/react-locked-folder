@@ -2,12 +2,11 @@
   "name": "react-locked-drive",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "glogin": "clasp login",
     "glogout": "clasp logout",
-    "gcreate": "clasp create --title 'React Locked-Drive' --rootDir ./apps-script",
-    "gclone": "clasp clone \"1kgbJuxdXsP-uMhRfkXcWnGRKEn0e8uJ9QVkX-ZEGSlBu0j5AB3ObruTP\" --rootDir ./apps-script",
+    "gcreate": "clasp create --title 'React' --rootDir ./apps-script",
+    "gclone": "clasp clone \"<script ID>\" --rootDir ./apps-script",
     "gpull": "clasp pull",
     "gpush": "clasp push",
     "gstart": "clasp push --watch",
@@ -23,6 +22,11 @@
     "process": "^0.11.10"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.8",
+    "@mui/x-data-grid": "^5.17.23",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1"
