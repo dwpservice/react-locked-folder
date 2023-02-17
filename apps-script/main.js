@@ -1,3 +1,5 @@
+/* Full code: https://github.com/goatshub/react-locked-folder */
+
 let ruleSheetId = '1xuMyOiwY4fgXHDSjqo4YX8XdTg094yHxbQ3m3o7ySbs'
 
 /*
