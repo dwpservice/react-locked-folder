@@ -1,7 +1,7 @@
 /*
 * Run on time trigger to check email notifying 45 days overdue and move the project folder into locked folder. 
 * - run getJDriveIdObj function to get drive ID of every year and every country (only 2023+) for drive J and drive Lock
-* - run getProjectArr function to extract project number from body of email within parenthesis.
+* - run getProjectArr function to extract project number from body of email (7 characters after "Reference: #").
 * - run loopProjectFolders function to loop drive J within the same year of the project (from project number prefix). 
 *   Find the matching folder and move to locked drive. (Matching year and country.)
 *
