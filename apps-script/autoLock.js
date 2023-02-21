@@ -1,5 +1,5 @@
 /*
-* Run on time trigger to check email notifying overdue and move the project folder into locked folder. 
+* Run on time trigger to check email notifying 45 days overdue and move the project folder into locked folder. 
 * - run getJDriveIdObj function to get drive ID of every year and every country (only 2023+) for drive J and drive Lock
 * - run getProjectArr function to extract project number from body of email within parenthesis.
 * - run loopProjectFolders function to loop drive J within the same year of the project (from project number prefix). 
@@ -102,7 +102,7 @@ function getProjectArr(){
 }
 
 /*
-* Loop through folders within jFolderId and move the folder that matched projectno to lockFolderId. 
+* Loop through folders within jFolderId and move the folder that matched projectno to lockFolderId. Notify emails in H1 cell in tab "Lock Folder" 
 * @return {boolean} foundProject - return true if found and moved matching project.
 */
 function loopProjectFolders(jFolderId, lockFolderId, projectno){
@@ -111,10 +111,24 @@ function loopProjectFolders(jFolderId, lockFolderId, projectno){
   var folders_Lock = DriveApp.getFolderById(lockFolderId);
   while(folders_j.hasNext()) {
     var folder = folders_j.next();
-    var name = folder.getName();
-    if(name.includes(projectno)) {
+    var folderName = folder.getName();
+    if(folderName.includes(projectno)) {
       folder.moveTo(folders_Lock);
-      console.log(`folder ${name} - J drive = ${jFolderId} moveTo folders_Lock = ${lockFolderId}`)
+      console.log(`folder ${folderName} - J drive = ${jFolderId} moveTo folders_Lock = ${lockFolderId}`)
+      //get email to notify of folder lock/unlock from H1 cell in tab "Lock Folder"
+      let notifyEmails = SpreadsheetApp.openById(ruleSheetId).getSheetByName("Lock Folder").getRange("H1").getValue()
+      if(notifyEmails){
+        let folderUrl = folder.getUrl()
+        MailApp.sendEmail(
+          notifyEmails,
+          `Folder has been locked.`,
+          `Folder ${folderName}. Url: ${folderUrl} has been automatically locked by 45 Days Overdue.`,
+          {
+            name: `Locked folders notification`,
+            htmlBody: `Folder <a href="${folderUrl}" target="_blank">${folderName}</a> has been automatically locked by 45 Days Overdue.`
+          }
+        )
+      }
       foundProject = true
       break; //break while loop (looping project folder)
     }

@@ -57,7 +57,7 @@ function getPermission(permittedEmails) {
 
 
 /*
-* Move folder to J drive according to year and region (if > 2023)
+* Move folder to J drive according to year and region (if > 2023). Notify emails in H1 cell in tab "Lock Folder" 
 * @param {string} folderID - folder id of folder in locked drive to move to J drive
 * @return {string} folderUrl
 */
@@ -88,15 +88,19 @@ function moveLockedToDriveJ(folderID){
     folder.moveTo(originalJFolder)
     let folderUrl = folder.getUrl()
     let sessionEmail = Session.getActiveUser().getEmail()
-    MailApp.sendEmail(
-      `benjaporn.k@dwp.com`,
-      `Locked folder has been unlocked.`,
-      `Unlocked ${folderName}. Url: ${folderUrl} by ${sessionEmail}`,
-      {
-        name: `Locked folders webapp`,
-        htmlBody: `Unlocked <a href="${folderUrl}" target="_blank">${folderName}</a>. by ${sessionEmail}`
-      }
-    )
+    //get email to notify of folder locke/unlock from H1 cell in tab "Lock Folder"
+    let notifyEmails = SpreadsheetApp.openById(ruleSheetId).getSheetByName("Lock Folder").getRange("H1").getValue()
+    if(notifyEmails){
+      MailApp.sendEmail(
+        notifyEmails,
+        `Locked folder has been unlocked.`,
+        `Unlocked ${folderName}. Url: ${folderUrl} by ${sessionEmail}`,
+        {
+          name: `Locked folders notification`,
+          htmlBody: `Unlocked <a href="${folderUrl}" target="_blank">${folderName}</a>. by ${sessionEmail}`
+        }
+      )
+    }
     return folderUrl
   }else{
     throw new Error(`Drive J not found. Please contact IT.`)
