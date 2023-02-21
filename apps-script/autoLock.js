@@ -81,12 +81,8 @@ function getProjectArr(){
       var thread = messages[i];
       GmailApp.markMessageRead(thread)
       var body = thread.getBody();
-      //Extract project number in ( ) in the email body
-      projectno = body.match(/\((.*)\)/).pop();
-
-      let projNoExtra = projectno.search(/\d+-\d+-\d/); //if it is branched project such as 22-0000-1, get the number of main project 22-0000
-      if(projNoExtra !== -1){projectno = projectno.match(/\d+-\d+/)[0];}
-
+      //get 7 chars xx-xxxx project number after "Reference: #"
+      projectno = body.split("Reference: #")[1].slice(0, 7)
       var splitprojectno = projectno.split('-');
       
       if(projectno[0].toLowerCase() == projectno[0].toUpperCase()) {
