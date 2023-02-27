@@ -1,5 +1,5 @@
 /*
-* Run on time trigger to check email notifying 45 days overdue and move the project folder into locked folder. 
+* Run on time trigger to check email notifying 45 days overdue, 60 days overdue (for Aus) and move the project folder into locked folder. 
 * - run getJDriveIdObj function to get drive ID of every year and every country (only 2023+) for drive J and drive Lock
 * - run getProjectArr function to extract project number from body of email (7 characters after "Reference: #").
 * - run loopProjectFolders function to loop drive J within the same year of the project (from project number prefix). 
@@ -73,7 +73,7 @@ function getJDriveIdObj(sheetname){
 function getProjectArr(){
   try {
     var projectno = '',year = '', projArr = []; 
-    var threads = GmailApp.search('from:dwpservice@dwp.com AND subject:AR Notification (45 Days Overdue) - - AND is:unread')[0];
+    var threads = GmailApp.search('from:dwpservice@dwp.com AND  {subject:"AR Notification (45 Days Overdue)" subject:"AR Notification (60 Days Overdue)"} AND is:unread')[0];
     var body = threads.getMessages()[0].getBody();
     var messages = threads.getMessages();
     //Read all messages in the thread.
@@ -118,10 +118,10 @@ function loopProjectFolders(jFolderId, lockFolderId, projectno){
         MailApp.sendEmail(
           notifyEmails,
           `Folder has been locked.`,
-          `Folder ${folderName}. Url: ${folderUrl} has been automatically locked by 45 Days Overdue.`,
+          `Folder ${folderName}. Url: ${folderUrl} has been automatically locked by overdue days.`,
           {
             name: `Locked folders notification`,
-            htmlBody: `Folder <a href="${folderUrl}" target="_blank">${folderName}</a> has been automatically locked by 45 Days Overdue.`
+            htmlBody: `Folder <a href="${folderUrl}" target="_blank">${folderName}</a> has been automatically locked by overdue days.`
           }
         )
       }
