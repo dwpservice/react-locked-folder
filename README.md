@@ -10,7 +10,7 @@ Use npm run gstart to watch for change in folder apps-script and push back to Ap
 /* clone github repo to local or fetch the data */
 
 git init
-git remote add origin https://github.com/goatshub/react-locked-folder.git
+git remote add origin https://github.com/dwpservice/react-locked-folder.git
 git fetch --all
 git pull origin main
 ```
