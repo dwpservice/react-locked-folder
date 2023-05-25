@@ -7,12 +7,20 @@ Run npm start to dev locally. Run npm run build for build version to use with Ap
 Use npm run gstart to watch for change in folder apps-script and push back to Apps Script automatically or use npm run gpush to manually push once at a time. Please make sure it is up to date with App Script version (using npm run gpull).
 
 ```
+/* clone github repo to local or fetch the data */
+
 git init
 git remote add origin https://github.com/goatshub/react-locked-folder.git
 git fetch --all
 git pull origin main
+```
+
+```
+/* run project */
 
 npm i
+
+npm run glogin //log in to clasp with driveadmin email (install/init clasp if needed)
 
 npm run gpull //to update from google script project first before pushing
 
